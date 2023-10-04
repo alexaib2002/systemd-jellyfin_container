@@ -21,6 +21,17 @@ AppArmor confines by default rootful containers with the `containers-default` pr
 the binary executing inside the container is inside the **enforce** section.
 SELinux should confine all containers by default, at least in RHEL/Fedora.
 
+## Installation
+
+Copy the file to `/etc/systemd/system/container-jellyfin.service`. Reload the systemd daemon with `systemctl reload-daemon`.
+
+Afterwards, enable the container and run it with `systemctl start --now container-jellyfin.service`.
+
+The web interface should be exposed at `localhost:8096`. Finish the initial configuration and everything should be up and running!
+
+Note that the service will still be running as UID/GID 1000, despite being inside a root container. This is done for securing even more the container, and allowing the user
+to copy existing config files to the volumes of the container (cache && config).
+
 ## HW transcoding
 
 You may want to do hardware accelerated transcoding when streaming to clients. With AMD/Intel, you shouldn't require any additional setup, as the MESA drivers on Linux
